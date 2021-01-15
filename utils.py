@@ -3,7 +3,7 @@ import cv2
 import imutils
 
 def logger(message, if_log = True):
-    if if_log: print(f'{time.ctime()}: ', message)
+    if if_log: print(f'{time.ctime()}:', message)
 
 
 def determinate_total_frames(video_path):
