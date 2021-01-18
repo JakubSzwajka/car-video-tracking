@@ -1,10 +1,10 @@
+from numba.core.decorators import jit
 import numpy as np
 import cv2
 import time
 from utils import * 
 
-
-class YOLO:
+class YOLO(object):
     COCONAMES_PATH = "yolo-coco/coco.names"
     WEIGHTS_PATH = "yolo-coco/yolov3-spp.weights"
     CONFIG_PATH = "yolo-coco/yolov3-spp.cfg"
@@ -14,6 +14,7 @@ class YOLO:
 
     LOGGER = False
 
+    
     def __init__(self):
         # load the COCO class labels    
         self.LABELS = open(self.COCONAMES_PATH).read().strip().split("\n")
