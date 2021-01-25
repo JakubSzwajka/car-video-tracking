@@ -5,6 +5,21 @@ from Tracking_exception import *
 
 GREEN = (127,200,0)
 
+def register_car(x,y,w,h,car_list):
+    to_append = True
+    tmp_car = Car(x,y, id='tmp')
+    for index, car in enumerate(car_list):
+        if tmp_car == car:
+            to_append = False
+            #update here 
+            car_list[index].update(x,y,w,h)
+            break
+
+    if to_append:
+        car_list.append(Car(x,y, id=len(car_list ) + 1 , w = w, h = h))
+
+
+
 class Car():
     def __init__(self, x, y, id = 0, w = 1, h = 1, maxDisappeared=10):
         self.ID = id
