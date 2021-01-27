@@ -1,26 +1,36 @@
 from typing import OrderedDict
 import cv2
 import math
+import settings
 from Tracking_exception import *
 
-GREEN = (127,200,0)
+class Tracker:
+    cars = []
+    cars_passed = 0
 
-def register_car(x,y,w,h,car_list):
-    to_append = True
-    tmp_car = Car(x,y, id='tmp')
-    for index, car in enumerate(car_list):
-        if tmp_car == car:
-            to_append = False
-            #update here 
-            car_list[index].update(x,y,w,h)
-            break
+    def filter(valid_contours):
+        for contour in valid_contours: 
+            if Tracker.isNewObject(contour):
+                Tracker.register_car(contour)
 
-    if to_append:
-        car_list.append(Car(x,y, id=len(car_list ) + 1 , w = w, h = h))
+    def register_car(contour):
+        x,y,w,h = contour
+        Tracker.cars.append(FrameObject(x,y, id=len(Tracker.cars) + 1 , w = w, h = h))
+        
+    def isNewObject(contour):
+        x,y,w,h = contour
+        to_append = True
+        tmp_car = FrameObject(x,y, id='tmp_dummy')
+        
+        for index, car in enumerate(Tracker.cars):
+            if tmp_car == car:
+                to_append = False
+                Tracker.cars[index].update(x,y,w,h)
+                break
+        return to_append
+    
 
-
-
-class Car():
+class FrameObject():
     def __init__(self, x, y, id = 0, w = 1, h = 1, maxDisappeared=10):
         self.ID = id
         self.objects = OrderedDict()
@@ -32,9 +42,6 @@ class Car():
         self.height = h
         self.updated = False
         self.disappeared = False
-
-        # if id != 'tmp':
-        #     print('New Car at: ', x , ":", y , ". ID:", self.ID)
 
     def __str__(self):
         return self.ID
@@ -62,9 +69,9 @@ class Car():
                 raise Tracking_Exception("car disaapear")
 
         if self.disappeared == False: 
-            cv2.rectangle(frame, (self.x, self.y),(self.x + self.width, self.y + self.height), GREEN, 2)
+            cv2.rectangle(frame, (self.x, self.y),(self.x + self.width, self.y + self.height), settings.GREEN, 2)
             label = "CAR ID:" + str(self.ID) + " x: " + str(self.x) + " y: " + str(self.y) 
-            cv2.putText(frame, label, (self.x, self.y), cv2.FONT_HERSHEY_SIMPLEX , 0.8, GREEN, 1, cv2.LINE_AA)
+            cv2.putText(frame, label, (self.x, self.y), cv2.FONT_HERSHEY_SIMPLEX , 0.8, settings.GREEN, 1, cv2.LINE_AA)
             self.updated = False
         
         
