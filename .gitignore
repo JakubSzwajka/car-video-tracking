@@ -1,4 +1,4 @@
 *car_tracking/
 *yolo-coco/ 
-*.mp4
+# *.mp4
 *.avi
