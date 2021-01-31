@@ -1,4 +1,3 @@
-from typing import OrderedDict
 import cv2
 import math
 import settings
