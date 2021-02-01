@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
-from Tracking_exception import Tracking_Exception 
+from src.Tracking_exception import Tracking_Exception 
+import streamlit as st
 
 class Frame:
     frame_width = 0
@@ -43,8 +44,11 @@ class Frame:
     def putText(self, text, position, font = cv2.FONT_HERSHEY_SIMPLEX, color = (124,252,0), size = 1 , thicknes = 2): 
         cv2.putText(self.frame, text, position, font , size , color, thicknes, cv2.LINE_AA)
     
-    def show(self):
-        cv2.imshow('frame', self.frame)
+    def show(self, streamlitWindow = None):
+        if streamlitWindow == None:
+            cv2.imshow('frame', self.frame)
+        else:
+            streamlitWindow.image(self.frame)
 
     def addBoundingBoxesFromContours(self, Tracker):
         for car in Tracker.objets:

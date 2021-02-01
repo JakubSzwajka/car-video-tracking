@@ -1,5 +1,6 @@
 import time
 import cv2 
+from src.Tracking_exception import Tracking_Exception
 
 class FPS:
     FPS_counter = 0
@@ -18,7 +19,7 @@ class FPS:
 def logger( message, log = False):
     if log: print(f'{time.ctime()}', message)
 
-def read_video( path ):
+def readVideo( path ):
     cap = cv2.VideoCapture(path)
     if cap.isOpened():
         logger('Video: ' + path + ' opened')

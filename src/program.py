@@ -3,13 +3,12 @@ import traceback
 import cv2
 import time
 
-import settings
-import Tracker
-import utils
-from Frame import Frame
-from Tracking_exception import *
-from Tracker import Tracker
-from utils import FPS
+import src.settings as settings
+from src.Frame import Frame
+from src.Tracker import Tracker
+from src.utils import FPS, logger
+
+import streamlit as st
 
 def classifyWithYOLO():
     while True:
@@ -32,6 +31,9 @@ def classifyWithYOLO():
             time.sleep(0.5)
 
 def runVideo( cap ):
+
+    # streamWindow = st.empty()
+
     Frame.frame_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     Frame.frame_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     first_go = True
@@ -40,6 +42,8 @@ def runVideo( cap ):
     previous_frame = None
 
     while(True):
+        # testVar = st.slider('X')
+
         if first_go != True:
             previous_frame = Frame(current_frame.getFrame())
         
@@ -61,15 +65,16 @@ def runVideo( cap ):
             Tracker.registerNewObjects(valid_contours, current_frame)
 
             # set which frame to display for user
-            ready_frame = difference_frame            
+            ready_frame = current_frame            
             
             ready_frame.addBoundingBoxesFromContours(Tracker)
             
-
+            st.write("test")
             ready_frame.putText( "Threads: " + str(threading.active_count()), (7,20))
             ready_frame.putText( "Object Bufor size: " + str(len(Tracker.objectsToClassify)), (7,50))
             ready_frame.putText( "FPS: " + FPS.tick(), (7, 80)) 
             ready_frame.putText( "Cars passed: " + str(len(Tracker.lostObjects)), ( 7, 110))
+            ready_frame.putText( "Test var: " + str(12), (7,140) )
 
             ready_frame.show()
         else: 
@@ -77,7 +82,7 @@ def runVideo( cap ):
             current_frame.show()
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            utils.logger('cars found: ' + str(Tracker.lostObjects), settings.LOG)
+            logger('cars found: ' + str(Tracker.lostObjects), settings.LOG)
             break
 
     cap.release()
@@ -88,17 +93,16 @@ def stopThreads():
     global STOP_CLASSIFIER_THREAD
     STOP_CLASSIFIER_THREAD = True
 
-def main(path):
+def main(video):
     global STOP_CLASSIFIER_THREAD    
-    STOP_CLASSIFIER_THREAD = False
-    
+    STOP_CLASSIFIER_THREAD = st.checkbox("Stop recognition", value=False, key=None)
+    # STOP_CLASSIFIER_THREAD = False
+
     try:
         classifierThread = threading.Thread(target=classifyWithYOLO)
         classifierThread.start()
 
-        # capture = utils.read_video('../videos/droga.mp4')
-        capture = utils.read_video(path)
-        runVideo(capture)
+        runVideo(video)
 
     except Exception as e:
         # just in case to stop threads 

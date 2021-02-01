@@ -1,8 +1,7 @@
 import cv2
 import math
-import settings
-from Tracking_exception import *
-
+import src.settings as settings 
+from src.Tracking_exception import Tracking_Exception
 
 class Tracker:
     objets = []
