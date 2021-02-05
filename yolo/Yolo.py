@@ -1,13 +1,12 @@
-from numba.core.decorators import jit
 import numpy as np
 import cv2
 import time
-from utils import * 
+from .utils import * 
 
 class YOLO(object):
-    COCONAMES_PATH = "yolo-coco/coco.names"
-    WEIGHTS_PATH = "yolo-coco/yolov3-spp.weights"
-    CONFIG_PATH = "yolo-coco/yolov3-spp.cfg"
+    COCONAMES_PATH = "yolo/yolo-coco/coco.names"
+    WEIGHTS_PATH = "yolo/yolo-coco/yolov3-spp.weights"
+    CONFIG_PATH = "yolo/yolo-coco/yolov3-spp.cfg"
 
     CONFIDENCE = 0.5
     THRESHOLD = 0.3
