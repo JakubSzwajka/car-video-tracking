@@ -1,4 +1,0 @@
-index, maszyna, czas, jakość, technologia, extra_info, link
-1, CPU-DELL, ~8min, idealna, YOLOv3-spp + openCV, Skrypt z pyimagesearch, https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/
-2, CPU-MSI, ~10min, idealna, YOLOv3-spp + openCV, Skrypt z pyimagesearch, https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/
-3, GoogleColab, ~28min, ,YOLOv3-spp + openCV, Skrypt z pyimagesearch, https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/

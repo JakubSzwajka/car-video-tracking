@@ -1,21 +1,23 @@
 
-from __future__ import print_function
 import requests
 import json
 import cv2
-VIDEO_PATH = 'videos/droga.mp4'
-# SERVER_IP = '192.168.0.17:5000/detect'
-SERVER_IP = 'http://localhost:5000/detect'
 
-# prepare headers for http request
-content_type = 'image/jpeg'
-headers = {'content-type': content_type}
+# use it like:
+# googleColabClient = OnlineClassificatorClient('http://806f115955e1.ngrok.io')
 
-img = cv2.imread('images/test.jpg')
-# encode image as jpeg
-_, img_encoded = cv2.imencode('.jpg', img)
-# send http request with image and receive response
-response = requests.post(SERVER_IP, data=img_encoded.tobytes(), headers=headers)
-# decode response
-print(json.loads(response.text))
-# print()
+
+class OnlineClassificatorClient():
+
+    def __init__(self,endpoint):
+        self.endpoint = endpoint
+        self.content_type = 'image/jpeg'
+        self.headers = {'content-type': self.content_type}
+        
+    def detection(self, image):
+        method = '/detect'
+        _, img_encoded = cv2.imencode('.jpg', image)
+        response = requests.post(self.endpoint + method, data=img_encoded.tobytes(), headers=self.headers)
+        return json.loads(response.text)
+        
+
