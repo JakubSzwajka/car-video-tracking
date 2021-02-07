@@ -1,7 +1,7 @@
 import cv2
 import math
-import car_centroid_tracker.settings as settings 
-from car_centroid_tracker.Tracking_exception import Tracking_Exception
+import settings as settings 
+from Tracking_exception import Tracking_Exception
 
 class Tracker:
     objets = []

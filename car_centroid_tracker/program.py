@@ -3,10 +3,11 @@ import traceback
 import cv2
 import time
 
-import car_centroid_tracker.settings as settings
-from car_centroid_tracker.Frame import Frame
-from car_centroid_tracker.Tracker import Tracker
-from car_centroid_tracker.utils import FPS, logger
+from utils import readVideo
+import settings
+from Frame import Frame
+from Tracker import Tracker
+from utils import FPS, logger
 
 import streamlit as st
 
@@ -23,7 +24,7 @@ def classifyWithYOLO( classifier ):
         if len(Tracker.objectsToClassify) > 0:
             ObjectToClassify = Tracker.objectsToClassify[0]
             # verify it 
-            detections = classifier.detection(ObjectToClassify.objImg)
+            # detections = classifier.detection(ObjectToClassify.objImg)
             # print(detections)
             # ObjectToClassify.label = "Samochodzik"
 
@@ -107,3 +108,8 @@ def main(video,classifier):
         # just in case to stop threads 
         print(traceback.format_exc())
         stopThreads()    
+
+
+if __name__ == "__main__":
+    video = readVideo('../videos/droga.mp4')
+    main(video, None)

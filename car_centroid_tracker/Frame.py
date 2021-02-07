@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from car_centroid_tracker.Tracking_exception import Tracking_Exception 
+from Tracking_exception import Tracking_Exception 
 import streamlit as st
 
 class Frame:

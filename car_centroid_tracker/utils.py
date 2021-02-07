@@ -1,6 +1,6 @@
 import time
 import cv2 
-from car_centroid_tracker.Tracking_exception import Tracking_Exception
+from Tracking_exception import Tracking_Exception
 
 class FPS:
     FPS_counter = 0
